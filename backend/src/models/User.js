@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema(
     contactPreference: { type: String, enum: ["email", "phone"], default: "email" },
     role: { type: String, enum: ["student", "admin"], default: "student" },
     isVerified: { type: Boolean, default: false },
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Listing" }],
   },
   { timestamps: true }
 );
