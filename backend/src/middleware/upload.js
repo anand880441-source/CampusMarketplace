@@ -2,9 +2,15 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
+const cloudinaryConfigured = Boolean(
+  process.env.CLOUDINARY_CLOUD_NAME &&
+    process.env.CLOUDINARY_API_KEY &&
+    process.env.CLOUDINARY_API_SECRET
+);
+
 const uploadDir = path.join(__dirname, "..", "..", "uploads");
 
-if (!fs.existsSync(uploadDir)) {
+if (!cloudinaryConfigured && !fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
@@ -15,7 +21,7 @@ const extensionByMimeType = {
   "image/gif": ".gif",
 };
 
-const storage = multer.diskStorage({
+const diskStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, uploadDir);
   },
@@ -34,7 +40,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-  storage,
+  storage: cloudinaryConfigured ? multer.memoryStorage() : diskStorage,
   fileFilter,
   limits: {
     fileSize: 5 * 1024 * 1024,
@@ -43,3 +49,4 @@ const upload = multer({
 });
 
 module.exports = upload;
+module.exports.cloudinaryConfigured = cloudinaryConfigured;

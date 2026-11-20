@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const path = require("path");
 const authRoutes = require("./routes/authRoutes");
 const listingRoutes = require("./routes/listingRoutes");
@@ -11,12 +12,27 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 
+const normalizeOrigin = (value) => value.trim().replace(/\/+$/, "");
+const allowedOrigins = new Set([
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+  ...(process.env.FRONTEND_URL || "")
+    .split(",")
+    .map(normalizeOrigin)
+    .filter(Boolean),
+]);
+
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.has(normalizeOrigin(origin))) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+  res.header("Vary", "Origin");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+  res.header("Access-Control-Max-Age", "86400");
   if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
+    return res.sendStatus(204);
   }
   next();
 });
@@ -28,6 +44,15 @@ app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
     message: "Campus Marketplace API is running!"
+  });
+});
+
+app.get("/health", (req, res) => {
+  const connected = mongoose.connection.readyState === 1;
+  res.status(200).json({
+    success: true,
+    status: connected ? "ok" : "degraded",
+    database: connected ? "connected" : "disconnected",
   });
 });
 
