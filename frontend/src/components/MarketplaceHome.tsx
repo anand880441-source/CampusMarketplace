@@ -49,7 +49,10 @@ export default function MarketplaceHome() {
   const router = useRouter();
 
   const queryString = searchParams.toString();
-  const isFiltered = Boolean(queryString);
+  const filterParams = new URLSearchParams(queryString);
+  filterParams.delete("page");
+  filterParams.delete("sort");
+  const isFiltered = filterParams.toString().length > 0;
   const [listings, setListings] = useState<Listing[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);

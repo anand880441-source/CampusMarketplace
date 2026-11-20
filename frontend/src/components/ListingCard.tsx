@@ -25,7 +25,6 @@ export default function ListingCard({ listing }: { listing: Listing }) {
   const seller = typeof listing.seller === "string" ? null : listing.seller;
   const sellerId = seller?._id;
   const isOwn = Boolean(user && sellerId && user._id === sellerId);
-  const isUnavailable = listing.isAvailable === false;
 
   return (
     <article className="card card-hover group relative flex flex-col overflow-hidden">
@@ -46,13 +45,12 @@ export default function ListingCard({ listing }: { listing: Listing }) {
             <span className={`badge ${listingTypeBadgeClass(listing.listingType)}`}>
               {LISTING_TYPE_LABELS[listing.listingType]}
             </span>
-            {isUnavailable ? (
+            <span className={`badge ${statusBadgeClass(listing.status)}`}>
+              {LISTING_STATUS_LABELS[listing.status]}
+            </span>
+            {!listing.isActive ? (
               <span className="badge bg-zinc-800 text-white">Paused</span>
-            ) : (
-              <span className={`badge ${statusBadgeClass(listing.status)}`}>
-                {LISTING_STATUS_LABELS[listing.status]}
-              </span>
-            )}
+            ) : null}
           </div>
 
           {!isOwn ? (
