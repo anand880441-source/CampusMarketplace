@@ -11,11 +11,15 @@ const validateId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 const sanitizeEnquiry = (enquiry) => {
   const data = enquiry.toObject ? enquiry.toObject() : { ...enquiry };
-  if (data.buyer && typeof data.buyer === "object") {
+  const shareContact = data.status === "accepted";
+
+  if (data.buyer && typeof data.buyer === "object" && data.buyer.name) {
     data.buyer = publicUser(data.buyer);
+    if (!shareContact) delete data.buyer.contact;
   }
-  if (data.seller && typeof data.seller === "object") {
+  if (data.seller && typeof data.seller === "object" && data.seller.name) {
     data.seller = publicUser(data.seller);
+    if (!shareContact) delete data.seller.contact;
   }
   return data;
 };
