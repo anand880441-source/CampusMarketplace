@@ -28,7 +28,7 @@ export default function ListingCard({ listing }: { listing: Listing }) {
 
   return (
     <article className="card card-hover group relative flex flex-col overflow-hidden">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-100">
+      <div className="relative aspect-4/3 w-full overflow-hidden bg-zinc-100">
         <Link href={`/listings/${listing._id}`} className="block h-full w-full">
           <img
             src={assetUrl(listing.images?.[0])}
