@@ -1,5 +1,13 @@
 const express = require("express");
+const path = require("path");
 const authRoutes = require("./routes/authRoutes");
+const listingRoutes = require("./routes/listingRoutes");
+const enquiryRoutes = require("./routes/enquiryRoutes");
+const favoriteRoutes = require("./routes/favoriteRoutes");
+const userRoutes = require("./routes/userRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 
@@ -14,6 +22,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
 app.get("/", (req, res) => {
   res.status(200).json({
@@ -23,5 +32,16 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/listings", listingRoutes);
+app.use("/api/enquiries", enquiryRoutes);
+app.use("/api/favorites", favoriteRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/notifications", notificationRoutes);
+app.use("/api/uploads", uploadRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+
+app.use((req, res) => {
+  res.status(404).json({ success: false, message: "Route not found" });
+});
 
 module.exports = app;
