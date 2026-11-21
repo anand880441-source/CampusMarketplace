@@ -1,163 +1,87 @@
-# CampusMarket
+# 🎓 CampusMarket
+> **One clear place for college students to list an item, receive offers, reserve it for one buyer, and complete the deal safely.**
 
-A student marketplace for buying, selling and exchanging used campus items.
+---
 
-> **One-line pitch:** CampusMarket gives students one clear place to list an item, receive offers, reserve it for one buyer and complete the deal safely.
+## 🎯 Project Overview
+**CampusMarket** is a full-stack web application built specifically for college campuses to streamline the buying, selling, and exchanging of pre-owned student essentials—including textbooks, electronics, dorm furniture, and stationery.
 
-## Project Overview
+Instead of relying on chaotic group chats and outdated notice boards, CampusMarket provides a centralized, structured marketplace. Every item has a clear availability status, every offer is tracked from start to finish, and personal contact information remains strictly private until both parties agree on a deal.
 
-CampusMarket is a full-stack web application for college students. Sellers can list books, electronics, furniture, stationery and other useful items. Buyers can search for what they need, save favorites and make an offer.
+---
 
-Instead of using scattered WhatsApp messages, students get one organized place for listings, offers and deal updates. Personal contact details are shared only after an offer is accepted.
+## 💡 The Problem
+Campus peer-to-peer trading currently relies on informal channels like WhatsApp groups, social media pages, and physical bulletin boards. This creates three major friction points for students:
+* **Buried Listings & Clutter:** Useful items get lost in endless chat threads within hours, making it nearly impossible to search or browse by category.
+* **Ambiguous Item Status:** Buyers waste time messaging sellers about items that were already sold or reserved days ago.
+* **Privacy & Spam Risks:** Students are forced to broadcast their personal phone numbers to hundreds of strangers just to negotiate a simple campus pickup.
 
-The project focuses on a simple goal: make campus buying and selling easier and safer.
+---
 
-## The Problem
+## 🛠️ Our Solution (The 5-Step Deal Lifecycle)
+CampusMarket replaces guesswork with a structured, state-driven workflow that protects both buyers and sellers:
 
-Used-item exchanges usually happen in WhatsApp groups and on notice boards. Posts get buried, prices are unclear, and phone numbers are often shared publicly.
+1. **Create a Listing:** A seller posts an item with photos, condition details, campus pickup location, and a listing type (*For Sale*, *For Exchange*, or *Free*).
+2. **Browse & Make an Offer:** Buyers filter the catalog, save favorites, and submit an offer with an optional message.
+3. **Accept & Reserve:** When a seller accepts an offer, the system automatically changes the item's status to **Reserved** and closes all competing pending offers.
+4. **Unlock Contact Details:** Only after acceptance are the buyer's and seller's phone numbers and emails revealed to each other to coordinate an in-person campus handoff.
+5. **Close the Deal:** Once the item is handed over, the seller marks the listing as **Sold**, permanently removing it from the active marketplace.
 
-## The Solution
+---
 
-CampusMarket organizes the whole exchange:
+## ✨ Core Features
 
-1. A seller creates a listing with photos and item details.
-2. A buyer sends an offer.
-3. The seller accepts or rejects the offer.
-4. Accepting reserves the item, closes other pending offers and unlocks contact details.
-5. The seller marks the item as sold when the deal is complete.
+### 🛍️ Buyer Experience
+* **Advanced Search & Filtering:** Quickly narrow down campus listings by category, price range, item condition, and hostel/campus location.
+* **Detailed Item Views:** Inspect multi-photo galleries, seller academic details (college & course), and recommended similar items.
+* **Favorites Watchlist:** Bookmark items to track availability and compare options before making an offer.
+* **Offer Management & Alerts:** Track the live status of all sent offers (*Pending*, *Accepted*, *Rejected*) and receive status notifications.
 
-What makes it different:
+### 🏷️ Seller Experience
+* **Flexible Listing Modes:** Support for traditional **Paid Sales**, **Item-for-Item Exchanges**, and **Free Giveaways**.
+* **Full Lifecycle Controls:** Easily edit details, temporarily **Pause** a listing, or delete items at any time.
+* **Unified Seller Dashboard:** View all active listings, review incoming offers side-by-side, and manage deal statuses from a single screen.
 
-- It is designed for campus needs.
-- Every offer has a clear status.
-- Only one buyer can reserve an item.
-- Contact details stay private until acceptance.
+### 🔒 Built-in Privacy & Guardrails
+* **Gated Contact Sharing:** Phone numbers and emails are stripped from public API responses and UI views until an offer is officially accepted.
+* **Single-Buyer Locking:** Once an item is marked *Reserved*, *Paused*, or *Sold*, the backend automatically blocks any new incoming offers to prevent double-booking.
+* **Role-Based Action Controls:** Strict ownership checks ensure only the listing creator can accept, reject, or modify item states.
 
-## Main Features
+---
 
-**Buyers**
+## 🏗️ System Architecture & Data Flow
+CampusMarket follows a decoupled client-server architecture designed for speed, data integrity, and media scalability:
 
-- Search and filter listings by category, price, condition and location.
-- View photos, seller details and similar items.
-- Save favorites.
-- Send an offer with an optional message.
-- Track offers and receive notifications.
+```text
+[ Next.js Frontend ]  <--->  [ Express REST API ]  <--->  [ MongoDB Database ]
 
-**Sellers**
+         |                            |
+         +------> [ Cloudinary ] <----+
+                  (Image Hosting)
+```
 
-- Create, edit, pause or delete listings.
-- List items for sale, for free or for exchange.
-- Add item photos.
-- Accept or reject offers from a dashboard.
-- Mark items as available, reserved or sold.
+* **Client Layer:** Handles responsive UI rendering, multi-criteria filtering, and role-based dashboard views.
+* **API & Business Logic Layer:** Enforces state transitions (e.g., locking competing offers upon acceptance) and applies privacy filters before returning user data.
+* **Persistence & Media Layer:** Stores structured user, listing, and offer documents in MongoDB while offloading image optimization and delivery to Cloudinary.
 
-**Safety**
+---
 
-- Phone numbers and emails are hidden from public pages.
-- Contact details are revealed only after an offer is accepted.
-- Only the seller can accept or reject an offer.
-- Reserved, sold and paused items do not accept new offers.
+## 💻 Tech Stack
 
-## Tech at a Glance
+| Layer | Technology | Role in CampusMarket |
+| :--- | :--- | :--- |
+| **Frontend** | **Next.js & React** | Component-based UI, routing, and state management |
+| **Styling** | **Tailwind CSS** | Responsive, mobile-first campus marketplace design |
+| **Backend** | **Node.js & Express** | RESTful API, authentication, and deal-locking rules |
+| **Database** | **MongoDB** | Flexible document storage for listings, offers, and notifications |
+| **Cloud Storage** | **Cloudinary** | Automated image uploads, compression, and CDN delivery |
 
-| Area | Technology |
-| --- | --- |
-| Website | Next.js and React |
-| Styling | Tailwind CSS |
-| Server | Node.js and Express |
-| Database | MongoDB |
-| Images | Cloudinary |
+---
 
-The website sends requests to the server. The server checks the rules and saves the result in the database.
+## 📌 Current Project Scope
+To keep the MVP focused, fast, and reliable for campus use, the current version operates within these boundaries:
+* **Offline Handoffs:** Deals and payments are completed face-to-face on campus once contact details are unlocked.
+* **Self-Reported Campus Profiles:** Students list their college and course on their profile without third-party ID verification.
+* **Standard Notifications:** Status updates and alerts sync automatically upon page navigation and refresh.
 
-## Demo Accounts
 
-All demo accounts use the password `password123`.
-
-| User | Email | Best for showing |
-| --- | --- | --- |
-| Arjun Mehta | `arjun@campus.edu` | Seller dashboard, offers received, accepting an offer |
-| Priya Sharma | `priya@campus.edu` | Buyer view, sent offers, notifications |
-| Rahul Verma | `rahul@campus.edu` | Extra listings and activity |
-
-The demo includes 3 users, 14 listings, offers, favorites and notifications. Reset the data from the `backend` folder with `npm run seed`.
-
-## 5-Minute Demo Flow
-
-Before starting: reset the demo data, start the backend and frontend, and use one normal window plus one incognito window.
-
-1. **Home page** - Show the marketplace and filters.
-   *Say:* "Students can search and filter available items by category, price, condition and location."
-
-2. **Listing details** - Open "Data Structures and Algorithms Textbook".
-   *Say:* "Each listing shows photos, price, location and seller details. Contact information is hidden until an offer is accepted."
-
-3. **Seller dashboard** - Log in as `arjun@campus.edu`, open the dashboard and click "Review offers".
-   *Say:* "One account can buy and sell. This dashboard shows Arjun's listings, pending offers and notifications."
-
-4. **Accept an offer** - Open Priya's offer and click "Accept & reserve".
-   *Say:* "Accepting reserves the item for Priya, closes other pending offers and unlocks contact details."
-
-5. **Buyer notification** - Log in as `priya@campus.edu` in the incognito window and open notifications. Refresh if needed.
-   *Say:* "Priya is notified that her offer was accepted and can now see the seller's contact details."
-
-6. **Complete the deal** - Log back in as Arjun and mark the reserved item as sold. Skip this step if time is short.
-   *Say:* "The buyer receives a final notification, and the item is removed from the active marketplace."
-
-## Common Questions
-
-**What problem does CampusMarket solve?**
-It replaces scattered campus resale messages with organized listings, offers and deal statuses.
-
-**How is it different from a WhatsApp group?**
-Listings are searchable, offers have a clear status, and contact details stay private until acceptance.
-
-**What happens when two people make offers?**
-The seller can accept only one. The accepted offer reserves the item, and other pending offers close automatically.
-
-**Are phone numbers and emails public?**
-No. They are shown only after an offer is accepted.
-
-**Is payment or chat included?**
-No. Users arrange payment and pickup in person after contact details are unlocked.
-
-**Are users verified students?**
-Not yet. Users add their college and course, but there is no student ID verification.
-
-**Is the project production-ready?**
-It is a working student project with the main flows completed. A public launch would need stronger verification, moderation, security and more testing.
-
-**Why these technologies?**
-Next.js keeps the website organized, Express makes the server straightforward, MongoDB stores flexible listing data, and Cloudinary handles images.
-
-**If you do not know an answer**
-Keep it short and honest:
-
-> "That is not included in the current version. It would be a good future improvement."
-
-## Scope and Next Steps
-
-Current scope:
-
-- Deals are completed in person.
-- There is no in-app chat, online payment, student verification or admin panel.
-- Notifications update when the page refreshes.
-- The main user flows have been tested, but not at large scale.
-
-Future improvements:
-
-- In-app chat and online payments.
-- Verified college accounts.
-- Ratings and reviews.
-- Reporting and admin moderation.
-- Real-time notifications and a mobile app.
-
-## Running Locally
-
-Use Node.js 22 and copy the settings from each `.env.example` file before starting.
-
-- Backend: install packages, add the database settings, run `npm run seed`, then start the development server.
-- Frontend: install packages in a second terminal and start the development server.
-- Open `http://localhost:3000`.
-
-Cloudinary is optional for local development. Images can also be stored locally.
