@@ -52,7 +52,7 @@ export default function LoginPage() {
   return (
     <div className="container-page max-w-5xl py-8 sm:py-12">
       <div className="grid overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-xl shadow-indigo-100/40 lg:grid-cols-[0.95fr_1.05fr]">
-        <aside className="relative hidden overflow-hidden bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 p-8 text-white lg:flex lg:flex-col lg:justify-between">
+        <aside className="relative hidden overflow-hidden bg-linear-to-br from-indigo-600 via-indigo-700 to-violet-800 p-8 text-white lg:flex lg:flex-col lg:justify-between">
           <div className="absolute -left-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
           <div className="absolute -bottom-24 -right-16 h-72 w-72 rounded-full bg-emerald-300/20 blur-3xl" />
 
